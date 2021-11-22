@@ -15,7 +15,7 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Run semantic-release
-        if: github.repository == 'casbin/casbin-cpp' && github.event_name == 'push'
+        if: github.repository == 'sheny1xuan/casbin-cpp' && github.event_name == 'push'
         run: |
           export PATH="$(yarn global bin):$PATH"
           yarn global add semantic-release
@@ -25,6 +25,6 @@ jobs:
       - name: UpdateCmake
         if: github.repository == 'casbin/casbin-cpp' && github.event_name == 'push'
         run: |
-          # LatestTAG=`git describe --tags`
-          # cmake_version_updated="    VERSION ${LatestTAG:1}"
-          # sed -i "/[[:space:]]VERSION/c\\${cmake_version_updated}" CMakeLists.txt
+          LatestTAG=`git describe --tags`
+          cmake_version_updated="    VERSION ${LatestTAG:1}"
+          sed -i "/[[:space:]]VERSION/c\\${cmake_version_updated}" CMakeLists.txt
