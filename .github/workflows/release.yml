@@ -23,7 +23,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: UpdateCmake
-        if: github.repository == 'casbin/casbin-cpp' && github.event_name == 'push'
+        if: github.repository == 'sheny1xuan/casbin-cpp' && github.event_name == 'push'
         run: |
           LatestTAG=`git describe --tags`
           cmake_version_updated="    VERSION ${LatestTAG:1}"
