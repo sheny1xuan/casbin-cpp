@@ -22,3 +22,9 @@ jobs:
           semantic-release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: UpdateCmake
+        if: github.repository == 'casbin/casbin-cpp' && github.event_name == 'push'
+        run: |
+          LatestTAG=`git describe --tags`
+          cmake_version_updated="    VERSION ${LatestTAG:1}"
+          sed -i "/[[:space:]]VERSION/c\\${cmake_version_updated}" CMakeLists.txt
