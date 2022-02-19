@@ -21,14 +21,26 @@
 #include "config_path.h"
 
 namespace {
+std::string global_sub;
+std::string global_obj;
+std::string global_act;
 
 template <typename T> 
 std::shared_ptr<casbin::IEvaluator> InitializeParams(const std::string& sub, const std::string& obj, const std::string& act) {
     auto evaluator = std::make_shared<T>();
     evaluator->InitialObject("r");
-    evaluator->PushObjectString("r", "sub", sub);
-    evaluator->PushObjectString("r", "obj", obj);
-    evaluator->PushObjectString("r", "act", act);
+
+    // Because of "Short String Optimization", these strings's data is in stack.
+    // For MSVC compiler, when this stack frame return, these memory will can't access.
+    // So we need keep this memory accessiable.
+
+    global_sub = sub;
+    global_obj = obj;
+    global_act = act;
+
+    evaluator->PushObjectString("r", "sub", global_sub);
+    evaluator->PushObjectString("r", "obj", global_obj);
+    evaluator->PushObjectString("r", "act", global_act);
 
     return evaluator;
 }
